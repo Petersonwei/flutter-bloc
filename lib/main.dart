@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'counter_cubit.dart';
+import 'counter_state.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,17 +37,21 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '${BlocProvider.of<CounterCubit>(context).state.count}',
-              style: Theme.of(context).textTheme.headlineMedium,
+      body: BlocBuilder<CounterCubit, CounterState>(
+        builder: (context, state) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('You have pushed the button this many times:'),
+                Text(
+                  '${state.count}',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,

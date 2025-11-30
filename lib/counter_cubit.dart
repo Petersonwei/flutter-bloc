@@ -6,13 +6,11 @@ class CounterCubit extends Cubit<CounterState> {
 
   void increment() {
     final newState = state.copyWith(count: state.count + 1);
-    print('newState: $newState');
     emit(newState);
   }
 
   void decrement() {
     final newState = state.copyWith(count: state.count - 1);
-    print('newState: $newState');
     emit(newState);
   }
 }
