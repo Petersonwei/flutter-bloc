@@ -1,8 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'blocs/theme/theme_bloc.dart';
-import 'blocs/theme/theme_event.dart';
+import 'blocs/theme/theme_cubit.dart';
 import 'blocs/theme/theme_state.dart';
 
 void main() {
@@ -15,14 +14,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ThemeBloc(),
-      child: MaterialApp(
-        title: 'MyCounterCubit',
-        debugShowCheckedModeBanner: false,
-        theme: context.watch<ThemeBloc>().state.appTheme == AppTheme.light
-            ? ThemeData.light()
-            : ThemeData.dark(),
-        home: const MyHomePage(title: 'Theme'),
+      create: (context) => ThemeCubit(),
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+            title: 'MyCounterCubit',
+            debugShowCheckedModeBanner: false,
+            theme: context.watch<ThemeCubit>().state.appTheme == AppTheme.light
+                ? ThemeData.light()
+                : ThemeData.dark(),
+            home: const MyHomePage(title: 'Theme'),
+          );
+        },
       ),
     );
   }
@@ -45,7 +48,7 @@ class MyHomePage extends StatelessWidget {
             final random = Random();
             final randInt = random.nextInt(11);
             print('Random number: $randInt');
-            context.read<ThemeBloc>().add(ChangeThemeEvent(randInt: randInt));
+            context.read<ThemeCubit>().changeTheme(randInt);
           },
           child: const Text(
             'Change Theme',
